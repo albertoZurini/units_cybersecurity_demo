@@ -23,24 +23,35 @@ A code found on [GitHub](https://github.com/ahervias77/vsftpd-2.3.4-exploit/blob
 ## Running the attack
 
 First I have to start `msfconsole`, once it boots up, I can search for the `vsftpd` exploit.
+
 ![](./screenshots/30_metasploit_search.png)
+
 There are two available exploits, but I'm going to use the second one, so I will type `use 1`.
 I then have to specify the IP address of the machine with this command `set RHOST 192.168.100.220`.
 At this point I can run the `exploit` command and then examine the results.
+
 ![](./screenshots/40_shell.png)
+
 The attack was successful and I was able to access the shell. Now I can try to type in some commands to check the user and other things.
+
 ![](./screenshots/50_shell_output.png)
 
 ## Having a look at the backdoor code
 
 Downloading [this repository](https://github.com/nikdubois/vsftpd-2.3.4-infected) can let us browse the infected code.
 Searching for `6200` leads us to this function:
+
 ![](./screenshots/60_port6200.png)
+
 As we can notice, it's opening a socket on port 6200 and executing a shell for any string that it's passed on. `execl` will execute and leave a command.
 Looking up where this function is getting called, we can notice:
+
 ![](./screenshots/70_code_triggering.png)
+
 `0x3a` and `0x29` are the hex codes for `:` and `)`.
 This function, which is used here:
+
 ![](./screenshots/80_login_failed.png)
+
 should have thrown a login error in case some special characters are in the username.
 On [this YouTube video](https://www.youtube.com/watch?v=G7nIWUMvn0o) a user is demonstrating the vulnerability using NetCat. After the login process, the FTP server doesn't do anything, but the user is not thrown with a login error. The cause might be that this step of the login is not halting the whole parts, but just some of them.
