@@ -1,5 +1,11 @@
 # Cybersecurity course demo
 
+This report is concerning the [MSc Cybersecurity course (IN20 at University of Trieste)](https://bartoli.inginf.units.it/didattica/cybersecurity).
+
+## Tools used
+- [Metasploitable 2](https://www.youtube.com/watch?v=WBsCOjRQKnI)
+- Kali Linux
+
 ## Port scanning
 
 ![](./screenshots/20_port_scan.png)
